@@ -61,7 +61,14 @@ def calculate_hand_value(hand):
 calculate_hand_value(player_hand)
 calculate_hand_value(dealer_hand)
 
-# show dealer hand
+# show dealer hand, expose one card when second card is received. Once all players have chose to stand or bust, reveal hand
+def exposeDealerHand(dealer_turn = False):
+  if dealer_turn:
+    return dealer_hand
+  if len(dealer_hand) == 2:
+    return dealer_hand[0]
+
+
 
 
 # determine winner
