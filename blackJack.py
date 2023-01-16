@@ -77,8 +77,8 @@ deal_hands()
 
 
 while player_In or dealer_In:
-  print(f'Dealer reveals {exposeDealerHand()}')
-  print(f'You have {player_hand} for a total of {calculate_hand_value(player_hand)}')
+  print(f'\n\nYou have {player_hand} for a total of {calculate_hand_value(player_hand)}')
+  print(f'\nDealer reveals {exposeDealerHand()}\n')
   if player_In:
     standOrHit = input("1: Stand\n2: Hit\n")
   if standOrHit == '1':
