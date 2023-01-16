@@ -1,5 +1,7 @@
 import random
 
+player_In = True
+dealer_In = True
 
 # values
 card_values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
@@ -15,11 +17,11 @@ def build_deck():
       card_props = {'val': card, 'suit': suit,}
       set_of_cards.append(card_props)
     deck.extend(set_of_cards)
+  random.shuffle(deck)
+  
 
 build_deck()
 
-# shuffle deck
-random.shuffle(deck)
 
 # empty player hands
 # TODO: make quantity of players a variable
@@ -38,7 +40,6 @@ def deal_hands():
   deal_card(player_hand)
   deal_card(dealer_hand)
 
-deal_hands()
 
 # calculate hand value
 def calculate_hand_value(hand):
@@ -56,10 +57,8 @@ def calculate_hand_value(hand):
       hand_value += 1
     else:
       hand_value += 11
-  print({'value': hand_value, "hand": hand })
+  return(hand_value)
 
-calculate_hand_value(player_hand)
-calculate_hand_value(dealer_hand)
 
 # show dealer hand, expose one card when second card is received. Once all players have chose to stand or bust, reveal hand
 def exposeDealerHand(dealer_turn = False):
@@ -68,9 +67,44 @@ def exposeDealerHand(dealer_turn = False):
   if len(dealer_hand) == 2:
     return dealer_hand[0]
 
+# GAME START
+deal_hands()
 
 
+while player_In or dealer_In:
+  print(f'Dealer reveals {exposeDealerHand()}')
+  print(f'You have {player_hand} for a total of {calculate_hand_value(player_hand)}')
+  if player_In:
+    standOrHit = input("1: Stand\n2: Hit\n")
+  if calculate_hand_value(dealer_hand) > 17:
+    dealer_In = False
+  else: deal_card(dealer_hand)
+  if standOrHit == '1':
+    playerIn = False
+  else:
+    deal_card(player_hand)
+  if calculate_hand_value(player_hand) >= 21:
+    break
+  if calculate_hand_value(dealer_hand) >= 21:
+    break
 
-# determine winner
+if calculate_hand_value(player_hand) == 21:
+  print(f'\n You have {player_hand} for a total of {calculate_hand_value(player_hand)} and the dealer has {dealer_hand} for a total of {calculate_hand_value(dealer_hand)}.')
+  print('Blackjack! You win!')
+elif calculate_hand_value(dealer_hand) == 21:
+  print(f'\n You have {player_hand} for a total of {calculate_hand_value(player_hand)} and the dealer has {dealer_hand} for a total of {calculate_hand_value(dealer_hand)}.')
+  print('Blackjack! Dealer wins.')
+elif calculate_hand_value(player_hand) > 21:
+  print(f'\n You have {player_hand} for a total of {calculate_hand_value(player_hand)} and the dealer has {dealer_hand} for a total of {calculate_hand_value(dealer_hand)}.')
+  print('You bust! Dealer Wins.')
+elif calculate_hand_value(dealer_hand) > 21:
+  print(f'\n You have {player_hand} for a total of {calculate_hand_value(player_hand)} and the dealer has {dealer_hand} for a total of {calculate_hand_value(dealer_hand)}.')
+  print('Dealer busts! You win!.')
+elif 21 - calculate_hand_value(dealer_hand) < 21 - calculate_hand_value(player_hand):
+  print(f'\n You have {player_hand} for a total of {calculate_hand_value(player_hand)} and the dealer has {dealer_hand} for a total of {calculate_hand_value(dealer_hand)}.')
+  print('Dealer wins.')
+elif 21 - calculate_hand_value(dealer_hand) > 21 - calculate_hand_value(player_hand):
+  print(f'\n You have {player_hand} for a total of {calculate_hand_value(player_hand)} and the dealer has {dealer_hand} for a total of {calculate_hand_value(dealer_hand)}.')
+  print('You win!.')
 
 
