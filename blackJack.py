@@ -36,8 +36,10 @@ def deal_card(hand, hit = False, dealer_hit = False):
   card = deck.pop(0) # the deck is shuffled so we can remove item at the top of the deck (index 0) and deal it into a hand
   hand.append(card)
   if hit:
+    delay()
     print(f'\nYou have been dealt a {format_hands([card])}')
   if dealer_hit:
+    delay()
     print(f'\nThe dealer has been dealt a card')
 
 # automate the amount of times dealt with player counts
@@ -69,6 +71,7 @@ def calculate_hand_value(hand):
 
 # show dealer hand, expose one card when second card is received. Once all players have chose to stand or bust, reveal hand
 def exposeDealerHand():
+  delay()
   if player_In == False:
     return format_hands(dealer_hand)
   else:
@@ -102,19 +105,16 @@ def format_hands(hand):
 
 
 while player_In or dealer_In:
-  
-
   print(f'\nYou have {format_hands(player_hand)} for a total of {calculate_hand_value(player_hand)}')
   print(f'\nDealer reveals {exposeDealerHand()}\n')
   if player_In:
     standOrHit = input("1: Hit\n2: Stand\n")
   if standOrHit == '2':
     delay()
-    print('You have chosen to stand.')
     player_In = False
   else:
     delay()
-    print('You have chosen to hit.')
+    print('\nYou have chosen to hit.')
     deal_card(player_hand, hit = True)
   if calculate_hand_value(player_hand) >= 21:
     break
