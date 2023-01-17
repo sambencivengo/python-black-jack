@@ -6,7 +6,7 @@ https://www.python.org/downloads/
 To play, simple run
 
 ```
-yarn play
+python3 blackJack.py
 ```
 
 in the root directory.
